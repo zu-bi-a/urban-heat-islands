@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Delhi Heat Gap</title>
+    <meta
+      name="description"
+      content="Who in Delhi lives in the most heat, and why their streets run hotter. A short scroll story built from satellite and street-level data."
+    />
+    <meta name="theme-color" content="#f6f3ee" />
+    <meta property="og:title" content="Delhi Heat Gap" />
+    <meta
+      property="og:description"
+      content="Some Delhi streets run far hotter than others. See why, and find your own neighbourhood."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip-link" href="#chapter-6">Skip to your neighbourhood</a>
+    <div class="sample-banner" id="sample-banner" hidden>
+      Sample data: all numbers are synthetic
+    </div>
+    <div class="progress" aria-hidden="true"><div class="progress-bar" id="progress-bar"></div></div>
+
+    <main id="story" class="story">
+      <figure class="story-map" aria-label="Map of Delhi coloured by surface heat. Each chapter's text describes what the map shows.">
+        <div id="map" class="map"></div>
+        <div id="legend" class="legend" aria-hidden="true"></div>
+        <div id="map-status" class="map-status" role="status"></div>
+      </figure>
+      <div id="steps" class="story-steps"></div>
+    </main>
+
+    <footer class="site-footer" id="footer"></footer>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -8,6 +8,29 @@ A free, mobile-first scroll story showing who in Delhi lives in the most heat, a
 
 Scope: the whole NCT of Delhi (MCD, NDMC and Cantonment), H3 resolution-9 hexes (about 0.1 km²).
 
+## Site
+
+```bash
+cd web
+npm install
+npm run dev        # http://localhost:5173
+npm run build      # static files in web/dist
+```
+
+The site reads only `web/public/data/` (see `DATA_CONTRACT.md`). A fresh checkout already has sample data. Run `pipeline/run.py sample` to regenerate it.
+
+- **Phones:** the map fills the screen and chapter cards scroll over it.
+- **From 900 px wide:** text column on the left, sticky map on the right.
+- **The map:** doesn't capture scrolling until chapter 6, where it becomes draggable and zoomable.
+
+**Links and sharing**
+
+- `/#n=<hex>&ll=<lat>,<lng>` opens the explorer on one hexagon. It's what readers get when they pick an area.
+- `/#place=<slug>` opens it on a locality.
+- `npm run build` also writes one small page per locality to `dist/p/<slug>/`, so links like `/p/rohini/` get a proper WhatsApp/Instagram preview ("How hot is Rohini?") before forwarding into the explorer.
+- Set `VITE_SITE_URL=https://your.domain` when building. It's printed on share cards and used for preview links; it defaults to the current origin.
+- Share cards use the native share sheet on touch devices and download a PNG everywhere else.
+
 ## Pipeline setup
 
 ```bash
