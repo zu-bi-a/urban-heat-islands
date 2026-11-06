@@ -1,0 +1,14 @@
+# Python
+pipeline/.venv/
+__pycache__/
+*.pyc
+
+# Pipeline caches and downloads (large, reproducible)
+data/raw/
+data/interim/
+
+# Web
+web/node_modules/
+web/dist/
+.DS_Store
+.env

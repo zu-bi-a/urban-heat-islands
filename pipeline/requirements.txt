@@ -1,0 +1,19 @@
+# Offline data pipeline. Python 3.11-3.12 recommended (geo wheels lag on newer versions).
+numpy>=1.26
+pandas>=2.2
+geopandas>=1.0
+shapely>=2.0
+pyproj>=3.6
+rasterio>=1.3.10
+rioxarray>=0.15
+xarray>=2024.3
+dask[array]>=2024.3
+h3>=4.1,<5
+pystac-client>=0.8
+odc-stac>=0.3.10
+planetary-computer>=1.0
+earthaccess>=0.10
+h5py>=3.10
+requests>=2.31
+tqdm>=4.66
+pyarrow>=15
