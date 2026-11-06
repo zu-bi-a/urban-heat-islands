@@ -12,7 +12,7 @@ import json
 
 import pandas as pd
 
-from delhiheat import checks, config, export, metrics, wards
+from delhiheat import checks, config, export, metrics, og, wards
 from delhiheat.grid import build_grid
 
 
@@ -22,10 +22,9 @@ def _publish(grid, table, places, ward_gdf, sample: bool) -> None:
     hotspots = checks.hotspot_deciles(table)
     checks.report(hotspots)
     export.write_pmtiles(export.hexes_geojson(grid, table))
-    export.write_json(
-        "city_stats.json",
-        export.city_stats(metrics.headline(table, streets), hotspots, sample),
-    )
+    stats = export.city_stats(metrics.headline(table, streets), hotspots, sample)
+    export.write_json("city_stats.json", stats)
+    og.write(table, stats, sample)
     export.write_json("wards.json", wards.summary(ward_gdf))
     export.write_json("places.json", places)
 

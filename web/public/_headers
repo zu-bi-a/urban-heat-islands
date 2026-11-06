@@ -1,0 +1,18 @@
+# Cloudflare Pages headers. If tiles move to R2 (VITE_TILES_URL), add that
+# origin to connect-src below.
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com https://gc.zgo.at; connect-src 'self' https://tiles.openfreemap.org https://cloudflareinsights.com https://*.goatcounter.com; img-src 'self' data: blob: https://tiles.openfreemap.org https://*.goatcounter.com; style-src 'self' 'unsafe-inline'; worker-src 'self' blob:; child-src blob:; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(self), camera=(), microphone=()
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/data/*
+  Cache-Control: public, max-age=3600, must-revalidate
+  Access-Control-Allow-Origin: *
+
+/streets/*
+  Cache-Control: public, max-age=86400

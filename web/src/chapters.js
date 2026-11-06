@@ -5,7 +5,10 @@
 import { people, deg, pct, km, escape } from './format.js';
 import { DECILE_COLOURS, NIGHT_STOPS, HOT, MUTED } from './palette.js';
 
-const RECORD_NIGHT_SOURCE = 'https://en.wikipedia.org/wiki/2024_Indian_heat_wave';
+// IMD, via PTI: 35.2 °C minimum on 19 June 2024, the warmest night in 12-14
+// years (outlets differ; pre-1969 records are unanalysed, so not "on record").
+const RECORD_NIGHT_SOURCE =
+  'https://theprint.in/india/delhi-records-warmest-night-in-14-years-at-35-2-degrees-celsius-spike-in-heatstroke-casualties/2138688/';
 
 function dayLegend(stats) {
   const b = stats.decile_breaks_c ?? [];
@@ -54,11 +57,11 @@ export function buildChapters(stats, streets) {
   const chapters = [
     {
       id: 1,
-      kicker: 'June 2024',
+      kicker: '19 June 2024',
       title: 'The hottest night',
       big: '35.2 °C',
-      body: `Delhi logged its warmest night on record: the temperature never fell below 35.2 °C. But the heat was not shared equally. Some streets carry far more of it than others.`,
-      source: { label: 'Source: 2024 Indian heat wave (Wikipedia)', href: RECORD_NIGHT_SOURCE },
+      body: `Delhi’s temperature never fell below 35.2 °C that night, its warmest in more than a decade. But the heat was not shared equally. Some streets carry far more of it than others.`,
+      source: { label: 'Source: IMD, via PTI (ThePrint)', href: RECORD_NIGHT_SOURCE },
       state: { look: 'teaser', camera: 'delhi' },
     },
     {

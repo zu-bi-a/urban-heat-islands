@@ -27,6 +27,9 @@ def report(hotspots: list[dict]) -> bool:
     ok = True
     print("\nHeat Wave Action Plan hotspot check (decile 10 = hottest):")
     for h in hotspots:
+        if h["name"] in config.AIR_STATION_HOTSPOTS:
+            print(f"  {h['name']:<14} decile {h['decile']}  (air-temperature station, informational)")
+            continue
         flag = "ok" if h["decile"] and h["decile"] >= 7 else "CHECK"
         ok &= flag == "ok"
         print(f"  {h['name']:<14} decile {h['decile']}  {flag}")

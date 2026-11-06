@@ -70,3 +70,7 @@ HAP_HOTSPOTS = {
     "Jahangirpuri": (28.7259, 77.1626),
     "Bhalswa": (28.7400, 77.1600),
 }
+# Hotspots named for high *air* temperature at a weather station (Ayanagar
+# recorded 45.5 °C). Surface heat need not agree, so these are shown but not
+# counted as pass/fail.
+AIR_STATION_HOTSPOTS = {"Ayanagar"}

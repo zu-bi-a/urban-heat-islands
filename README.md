@@ -13,9 +13,12 @@ Scope: the whole NCT of Delhi (MCD, NDMC and Cantonment), H3 resolution-9 hexes 
 ```bash
 cd web
 npm install
-npm run dev        # http://localhost:5173
-npm run build      # static files in web/dist
+npm run dev            # http://localhost:5173
+npm run build          # static files in web/dist; fails on sample data
+npm run build:sample   # local test build of the sample data (never deploy it)
 ```
+
+Deploying to Cloudflare Pages, environment variables, and everything still to do before launch: see [LAUNCH_CHECKLIST.md](LAUNCH_CHECKLIST.md). How the map is made is explained to readers at `/methods.html`.
 
 The site reads only `web/public/data/` (see `DATA_CONTRACT.md`). A fresh checkout already has sample data. Run `pipeline/run.py sample` to regenerate it.
 

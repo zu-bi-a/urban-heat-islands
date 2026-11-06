@@ -6,7 +6,7 @@
   --card: rgba(255, 253, 249, 0.96);
   --ink: #1f1b16;
   --ink-2: #5a5249;
-  --ink-3: #8a8178;
+  --ink-3: #6b6258; /* 5:1+ on the page background (WCAG AA) */
   --rule: #e4ddd2;
   --hot: #be322e;
   --cool: #2f6f8f;
@@ -120,10 +120,11 @@ a { color: inherit; text-underline-offset: 2px; }
   padding: 18px 18px 16px;
   max-height: 72svh;
   overflow-y: auto;
-  opacity: 0.55;
-  transition: opacity 0.35s ease;
 }
-.step.is-active .card { opacity: 1; }
+/* The active chapter is marked by colour, not by fading the others, which
+   would drop their text below WCAG contrast. */
+.card__num { transition: background-color 0.3s ease; }
+.step.is-active .card__num { background: var(--accent); }
 
 .card__kicker {
   margin: 0 0 6px;
@@ -359,9 +360,12 @@ a { color: inherit; text-underline-offset: 2px; }
     overflow: visible;
     box-shadow: none;
     background: transparent;
-    padding: 0;
-    opacity: 0.3;
+    padding: 0 0 0 20px;
+    border-left: 3px solid var(--rule);
+    border-radius: 0;
+    transition: border-color 0.3s ease;
   }
+  .step.is-active .card { border-left-color: var(--accent); }
   .card__big { font-size: 60px; }
   .card__title { font-size: 34px; }
   .legend { top: 20px; left: 20px; width: 270px; font-size: 13px; }
@@ -584,4 +588,34 @@ a { color: inherit; text-underline-offset: 2px; }
 @media (min-width: 900px) {
   .hex-panel { left: auto; right: 20px; bottom: 36px; width: 340px; max-height: calc(100% - 80px); }
   .share-main { grid-template-columns: 120px 1fr; }
+}
+
+/* ---------- methods page ---------- */
+
+.doc { max-width: 720px; margin: 0 auto; padding: 28px 16px 72px; }
+.doc h1 { font: 600 34px/1.15 var(--serif); margin: 16px 0 12px; letter-spacing: -0.01em; }
+.doc h2 { font: 600 23px/1.2 var(--serif); margin: 40px 0 10px; }
+.doc p, .doc li { color: #2e2822; }
+.doc li + li { margin-top: 8px; }
+.doc a { color: var(--ink); }
+.doc__back { font-size: 15px; color: var(--ink-2) !important; }
+.doc__lede { font-size: 19px; color: var(--ink-2) !important; }
+.doc__defs dt { font-weight: 700; margin-top: 12px; }
+.doc__defs dd { margin: 2px 0 0; color: var(--ink-2); }
+.doc__limits strong { color: var(--ink); }
+.doc__small { font-size: 14px; color: var(--ink-3) !important; }
+.doc__table-wrap { overflow-x: auto; margin: 0 -16px; padding: 0 16px; }
+.doc__table { border-collapse: collapse; width: 100%; min-width: 600px; font-size: 14px; line-height: 1.4; }
+.doc__table th, .doc__table td { text-align: left; vertical-align: top; padding: 9px 10px 9px 0; border-bottom: 1px solid var(--rule); }
+.doc__table th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-3); }
+@media (min-width: 900px) { .doc h1 { font-size: 44px; } .doc { padding-top: 48px; } }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }

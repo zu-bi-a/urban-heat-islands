@@ -6,6 +6,7 @@ import { createExplorer, parseHash } from './explorer.js';
 import { createActions } from './actions.js';
 import { escape } from './format.js';
 import { track } from './track.js';
+import { ARTHA_URL } from './links.js';
 
 const DATA = '/data';
 
@@ -67,6 +68,8 @@ function renderFooter(el, stats) {
       <h2>About this map</h2>
       <p>Hexagons are about 0.1 km², big enough to show neighbourhoods and small enough to hide individual homes. Heat figures use built-up areas only, leaving out the Yamuna, the ridge forest and farmland.</p>
       <p>Street photos may be a few years old; each comparison shows its capture years. Death and illness figures are not mapped: official and NGO counts differ widely and the data cannot support them by area.</p>
+      <p><a href="/methods.html">How this map was made: methods, data and limitations →</a></p>
+      <p>For planners and analysts, Artha Global’s <a href="${ARTHA_URL}" target="_blank" rel="noopener">Heat in the Home</a> map covers household heat vulnerability across Delhi in more depth.</p>
       <h3>Data</h3>
       <ul class="credits">${(stats.credits ?? []).map((c) => `<li>${escape(c)}</li>`).join('')}</ul>
       <p class="site-footer__small">Population: ${escape(stats.versions?.population ?? '')}. Data generated ${escape(stats.generated ?? '')}.</p>
@@ -109,7 +112,10 @@ async function main() {
   trackProgress();
 
   const legendEl = document.getElementById('legend');
-  const storyMap = createMap('map', { pmtilesUrl: `${DATA}/hexes.pmtiles` });
+  // Tiles ship with the site by default; set VITE_TILES_URL to serve them from R2.
+  const storyMap = createMap('map', {
+    pmtilesUrl: import.meta.env.VITE_TILES_URL || `${DATA}/hexes.pmtiles`,
+  });
   storyMap.map.on('error', (e) => console.warn('Map:', e.error?.message ?? e));
 
   let actions;

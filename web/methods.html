@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Methods · Delhi Heat Gap</title>
+    <meta name="description" content="How the Delhi Heat Gap map was made: data sources, metrics, limitations and the rules we follow to avoid harm." />
+    <meta name="theme-color" content="#f6f3ee" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body class="doc-page">
+    <aside class="sample-banner" id="sample-banner" aria-label="Data notice" hidden>Sample data: all numbers are synthetic</aside>
+    <main class="doc">
+      <p><a href="/" class="doc__back">← Back to the story</a></p>
+      <h1>How this map was made</h1>
+      <p class="doc__lede">
+        Delhi Heat Gap shows which Delhi neighbourhoods get hottest, who lives there, and what their streets look
+        like. Everything below is open data, processed once, offline, and published as static files.
+      </p>
+
+      <h2 id="metrics">What the numbers mean</h2>
+      <p>
+        The city is divided into H3 hexagons at resolution 9, each about 0.1 km². That is small enough to show
+        neighbourhoods and big enough to hide individual homes. Headline numbers use <strong>built-up hexagons
+        only</strong>, leaving out the Yamuna, the ridge forest and farmland.
+      </p>
+      <dl class="doc__defs">
+        <dt>Heat gap<span data-stat="heat_gap_c" data-unit="°C"></span></dt>
+        <dd>Median daytime surface temperature of the hottest 10% of hexagons minus that of the coolest 10%.</dd>
+        <dt>People in the heat<span data-stat="people_in_heat" data-people></span></dt>
+        <dd>Modelled population summed over the hottest 10% of hexagons, rounded to the nearest 10,000.</dd>
+        <dt>Night retention</dt>
+        <dd>Night surface temperature of a hexagon minus the median for built-up Delhi.</dd>
+        <dt>Shade gap<span data-stat="shade_gap_pct" data-unit="points"></span></dt>
+        <dd>Average share of the street view filled by trees and plants on cool streets, minus hot streets, across every street with enough photos.</dd>
+      </dl>
+      <p>Deciles (the colours on the map) split built-up hexagons into ten equal groups by daytime surface temperature. Current breaks: <span id="breaks"></span>.</p>
+
+      <h2 id="data">Data</h2>
+      <div class="doc__table-wrap">
+        <table class="doc__table">
+          <thead><tr><th>Layer</th><th>Source</th><th>Detail</th><th>Licence</th></tr></thead>
+          <tbody>
+            <tr><td>Daytime surface heat</td><td><a href="https://planetarycomputer.microsoft.com/dataset/landsat-c2-l2">Landsat 8/9 Collection 2 Level-2</a> (USGS), via Microsoft Planetary Computer</td><td>30 m grid (thermal band resampled), ~10:30 am overpass, <span data-period="day"></span>, per-pixel median of clear-sky scenes</td><td>Public domain</td></tr>
+            <tr><td>Night surface heat</td><td>VIIRS VNP21A1N (NASA LP DAAC)</td><td>1 km, ~1:30 am overpass, same months and years</td><td>Free, NASA</td></tr>
+            <tr><td>Population</td><td><a href="https://hub.worldpop.org/">WorldPop</a></td><td><span data-version="population"></span>; age groups from WorldPop 2020 age/sex</td><td>CC-BY 4.0</td></tr>
+            <tr><td>Land cover, trees</td><td><a href="https://esa-worldcover.org/">ESA WorldCover</a>; <a href="https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a">Sentinel-2 L2A</a> NDVI</td><td>10 m</td><td>CC-BY 4.0; Copernicus</td></tr>
+            <tr><td>Street photos</td><td><a href="https://www.mapillary.com/">Mapillary</a> contributors</td><td>Photos from 2021 or later, segmented with <a href="https://huggingface.co/facebook/mask2former-swin-large-mapillary-vistas-semantic">Mask2Former (Mapillary Vistas)</a></td><td>CC-BY-SA 4.0</td></tr>
+            <tr><td>Boundaries</td><td>NCT of Delhi (geoBoundaries); MCD wards 2022 (OpenCity)</td><td>Wards cover MCD areas only, not NDMC or Cantonment</td><td>Open</td></tr>
+            <tr><td>Basemap, place names</td><td><a href="https://openfreemap.org/">OpenFreeMap</a>, <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a></td><td></td><td>ODbL</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="process">Processing</h2>
+      <ol>
+        <li>Landsat surface temperature is converted to °C (Kelvin = DN × 0.00341802 + 149.0, minus 273.15). Clouds, cloud shadow and cirrus are masked with the QA_PIXEL band, scenes with under half of Delhi clear are dropped, and the per-pixel median is taken across all remaining April–June days.</li>
+        <li>Each 30 m pixel is assigned to the hexagon containing its centre and the median is taken. Night data, which is coarser than a hexagon, is sampled at each hexagon’s centre.</li>
+        <li>Population pixels are summed per hexagon. Age shares from 2020 are applied to the newer totals so that age groups never exceed the total.</li>
+        <li>A hexagon counts as built-up if at least 15% of it is built-up land or about 500 people live there, and it is less than half water.</li>
+        <li>As a sanity check, the hottest hexagons are compared with thermal hotspots named in the <a href="https://www.tribuneindia.com/news/delhi/delhi-govt-tightens-heat-action-plan-with-focus-on-thermal-hotspots-public-safety/">Heat Wave Action Plan 2026</a>. <span id="hotspots"></span></li>
+        <li>For streets, up to 30 recent photos per hot and cool hexagon are segmented into trees and plants, sky, buildings and road. A person checked 50 random results by hand. Only road or skyline photos with no people or recognisable homes are ever shown.</li>
+      </ol>
+
+      <h2 id="limits">What the data cannot show</h2>
+      <ul class="doc__limits">
+        <li><strong>Surface is not air.</strong> Satellites measure how hot roofs and roads get around 10:30 am, not the air people breathe or the heat inside a tin-roofed room at 2 am. Indoor and night heat often hurt most. Weather stations such as Ayanagar measure air temperature, which is why a place can be an official hotspot without topping this map.</li>
+        <li><strong>Night data is coarse.</strong> At 1 km, the night chapter shows broad patterns, not streets.</li>
+        <li><strong>Population is modelled, not counted.</strong> WorldPop spreads census totals using satellite cues, and the last ward-level census is from 2011. We always say “about” and round.</li>
+        <li><strong>Street photos may be old.</strong> Each comparison shows its photos’ capture years; photos older than about five years are skipped.</li>
+        <li><strong>Correlation is not proof.</strong> “Less shade, more heat” is a pattern across many streets, not a verdict on any one street.</li>
+      </ul>
+
+      <h2 id="harm">How we try to avoid harm</h2>
+      <ul>
+        <li>We name causes, not people: “no trees, metal roofs, no ventilation”. We never use words like “slum” or “encroachment”, which in Delhi can feed eviction narratives.</li>
+        <li>No caste, religion or similar breakdowns, even where data exists.</li>
+        <li>No photos with identifiable people or homes in the foreground. The tree, sky and building bars carry the story instead.</li>
+        <li>No death or illness numbers on the map. Official and NGO counts for Delhi differ widely and are disputed, and the data cannot support them by area.</li>
+        <li>No accounts, cookies or tracking of individual readers. We count only anonymous totals (visits, story completions, shares).</li>
+      </ul>
+
+      <h2 id="related">Related work</h2>
+      <p>Artha Global’s <a id="artha-link" href="#">Heat in the Home</a> maps household heat vulnerability in Delhi using satellite data and a household survey. It is built for planners and analysts; this project is a short story for everyone else. We recommend it.</p>
+
+      <h2 id="credits">Credits and licences</h2>
+      <ul id="credits-list" class="credits"></ul>
+      <p id="photographers" class="doc__small"></p>
+      <p class="doc__small" id="generated"></p>
+      <p class="doc__small" id="repo" hidden>Code and pipeline: <a href="#" id="repo-link">source repository</a>. Spotted an error? Please open an issue there.</p>
+    </main>
+    <script type="module" src="/src/methods.js"></script>
+  </body>
+</html>
