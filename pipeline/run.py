@@ -31,10 +31,11 @@ def _publish(grid, table, places, ward_gdf, sample: bool) -> None:
 
 
 def run_sample() -> None:
-    from delhiheat import sample
+    from delhiheat import sample, streets
 
     grid, table, places = sample.build()
     print(f"SAMPLE: {len(grid)} hexes (synthetic values, do not publish)")
+    streets.sample(table)
     _publish(grid, table, places, None, sample=True)
 
 

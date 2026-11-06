@@ -1,0 +1,6 @@
+# Segmentation step only. Run on a GPU (Colab or Kaggle free tier); CPU works but is slow.
+torch>=2.2
+transformers>=4.44
+Pillow>=10
+pandas>=2.2
+pyarrow>=15

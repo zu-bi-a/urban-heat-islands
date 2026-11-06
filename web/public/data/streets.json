@@ -1,0 +1,161 @@
+{
+ "sample": true,
+ "generated": "2026-11-06",
+ "licence": "Street photos and images derived from them: Mapillary contributors, CC-BY-SA 4.0",
+ "shade_gap_pct": 31.7,
+ "shade": {
+  "hot_tree_pct": 5.0,
+  "n_hot": 3,
+  "cool_tree_pct": 36.7,
+  "n_cool": 3
+ },
+ "pairs": [
+  {
+   "id": "p1",
+   "hot": {
+    "name": "Sample hot street 1",
+    "area": "Synthetic data",
+    "h": "893da116553ffff",
+    "lat": 28.68753,
+    "lng": 77.17927,
+    "lst_day": 47.7,
+    "tree_pct": 7,
+    "sky_pct": 34,
+    "building_pct": 37,
+    "road_pct": 17,
+    "people_500m": 16500,
+    "n_images": 14,
+    "years": [
+     2023,
+     2025
+    ],
+    "credits": [
+     "sample-data"
+    ],
+    "thumb": null
+   },
+   "cool": {
+    "name": "Sample cool street 1",
+    "area": "Synthetic data",
+    "h": "893da116c47ffff",
+    "lat": 28.6832,
+    "lng": 77.23054,
+    "lst_day": 39.8,
+    "tree_pct": 45,
+    "sky_pct": 11,
+    "building_pct": 20,
+    "road_pct": 19,
+    "people_500m": 15500,
+    "n_images": 28,
+    "years": [
+     2023,
+     2025
+    ],
+    "credits": [
+     "sample-data"
+    ],
+    "thumb": null
+   },
+   "diff_c": 7.9
+  },
+  {
+   "id": "p2",
+   "hot": {
+    "name": "Sample hot street 2",
+    "area": "Synthetic data",
+    "h": "893da10701bffff",
+    "lat": 28.52821,
+    "lng": 77.2953,
+    "lst_day": 46.9,
+    "tree_pct": 5,
+    "sky_pct": 31,
+    "building_pct": 27,
+    "road_pct": 26,
+    "people_500m": 4700,
+    "n_images": 25,
+    "years": [
+     2023,
+     2025
+    ],
+    "credits": [
+     "sample-data"
+    ],
+    "thumb": null
+   },
+   "cool": {
+    "name": "Sample cool street 2",
+    "area": "Synthetic data",
+    "h": "893da102ec7ffff",
+    "lat": 28.51589,
+    "lng": 77.19966,
+    "lst_day": 40.1,
+    "tree_pct": 30,
+    "sky_pct": 13,
+    "building_pct": 16,
+    "road_pct": 30,
+    "people_500m": 5400,
+    "n_images": 13,
+    "years": [
+     2023,
+     2025
+    ],
+    "credits": [
+     "sample-data"
+    ],
+    "thumb": null
+   },
+   "diff_c": 6.8
+  },
+  {
+   "id": "p3",
+   "hot": {
+    "name": "Sample hot street 3",
+    "area": "Synthetic data",
+    "h": "893da1030b7ffff",
+    "lat": 28.47726,
+    "lng": 77.13583,
+    "lst_day": 49.6,
+    "tree_pct": 3,
+    "sky_pct": 37,
+    "building_pct": 26,
+    "road_pct": 23,
+    "people_500m": 4600,
+    "n_images": 13,
+    "years": [
+     2023,
+     2025
+    ],
+    "credits": [
+     "sample-data"
+    ],
+    "thumb": null
+   },
+   "cool": {
+    "name": "Sample cool street 3",
+    "area": "Synthetic data",
+    "h": "893da11532fffff",
+    "lat": 28.55775,
+    "lng": 77.22518,
+    "lst_day": 37.4,
+    "tree_pct": 35,
+    "sky_pct": 10,
+    "building_pct": 23,
+    "road_pct": 25,
+    "people_500m": 4300,
+    "n_images": 21,
+    "years": [
+     2023,
+     2025
+    ],
+    "credits": [
+     "sample-data"
+    ],
+    "thumb": null
+   },
+   "diff_c": 12.2
+  }
+ ],
+ "credits": [
+  "sample-data"
+ ]
+}

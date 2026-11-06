@@ -44,6 +44,27 @@ Headline numbers, all computed over built-up hexes only.
 
 `[{name, lat, lng}]` — OSM locality names for search.
 
-## `streets.json` (Phase 2)
+## `streets.json`
 
-Defined in Phase 2.
+Hot/cool street pairs for chapter 5 and the "Two streets" card. A "street" is the recent Mapillary photos inside one hex, named after the OSM road at their centre.
+
+- `sample`: **true for synthetic data** (names read "Sample hot street 1").
+- `licence`: CC-BY-SA notice for photos and anything derived from them.
+- `shade_gap_pct`: mean vegetation-view % on cool streets minus hot streets, over every segmented candidate street, not just the pairs.
+- `shade`: `{hot_tree_pct, n_hot, cool_tree_pct, n_cool}`
+- `credits`: every Mapillary username whose photos were used.
+- `pairs`: `[{id, diff_c, hot: Street, cool: Street}]`
+
+Street:
+
+| Key | Meaning |
+|-----|---------|
+| `name`, `area` | OSM road and neighbourhood (can be hand-overridden) |
+| `h`, `lat`, `lng` | Hex and photo-cluster centre |
+| `lst_day` | Hex daytime surface temperature, °C |
+| `tree_pct`, `sky_pct`, `building_pct`, `road_pct` | Mean pixel share across the street's photos ("tree" = all vegetation) |
+| `people_500m` | Residents of hexes within 500 m, rounded to 100 |
+| `n_images`, `years` | Photo count and capture-year range |
+| `credits` | Mapillary usernames for this street |
+| `thumb` | `streets/<id>.webp`, or `null` until a human approves one |
+| `thumb_credit`, `thumb_year` | Present when `thumb` is set |

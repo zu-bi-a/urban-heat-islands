@@ -40,6 +40,40 @@ Each step caches its result in `data/interim/`. Pass `--force` to recompute. `ru
 
 `run.py check` compares the hottest hexes with the Heat Wave Action Plan 2026 hotspots (Ayanagar, Wazirpur, Jahangirpuri, Bhalswa). If they are not in the hottest 30%, suspect a pipeline bug before trusting the map.
 
+### Street photos (Phase 2)
+
+These steps need a free Mapillary client token (`export MAPILLARY_TOKEN=...`) and a finished `run.py all`.
+
+```bash
+.venv/bin/python run_streets.py coverage     # images per hex since 2021, prints PASS/FAIL gate
+.venv/bin/python run.py all                  # rerun so hexes get the `mc` coverage count
+.venv/bin/python run_streets.py candidates   # hot/cool hexes with 10+ photos, named via OSM
+.venv/bin/python run_streets.py fetch        # downloads ≤30 photos per street
+```
+
+Segmentation runs on a GPU. In Colab or Kaggle, upload `pipeline/segment.py`, `requirements-vision.txt` and `data/raw/mapillary/images/`, then:
+
+```bash
+pip install -r requirements-vision.txt
+python segment.py images/ segmentation.parquet --qa-dir qa/
+```
+
+Copy `segmentation.parquet` and `qa/` back into `data/interim/`, then:
+
+```bash
+.venv/bin/python run_streets.py qa      # data/interim/qa_sheet.csv: hand-check 50 images
+.venv/bin/python run_streets.py build   # web/public/data/streets.json
+.venv/bin/python run.py export          # pulls the shade gap into city_stats.json
+```
+
+**Gate fails (thin coverage)?** Record 4–6 streets yourself with the Mapillary app, upload them, wait for processing, then rerun from `coverage`.
+
+**Curating pairs.** `build` writes suggestions to `data/interim/street_pairs_suggested.json`. Copy it to `pipeline/streets_selected.json` and edit it: drop pairs, and add `hot_name` / `cool_name` to fix OSM names.
+
+**Thumbnails need a human.** None is published until its Mapillary image id is in `pipeline/thumbs_approved.txt`. `streets.json` lists up to three model-screened candidates per street under `thumb_review`. Approve only road or skyline shots with no people and no recognisable homes. Derived images stay CC-BY-SA.
+
+NUS Global Streetscapes (checked 2026-10-25) lists only 1,371 images for "New Delhi", too few to reuse. Rerun the check with `run_streets.py nus`.
+
 ## Credits
 
 Landsat (USGS) · VIIRS (NASA) · WorldPop (CC-BY 4.0) · ESA WorldCover (CC-BY 4.0) · Sentinel-2 (Copernicus) · MCD wards via OpenCity · Mapillary contributors (CC-BY-SA 4.0) · OpenFreeMap / © OpenStreetMap contributors. Analysts should also see Artha Global's Delhi Climate & Health Explorer (link in the PRD sources).
